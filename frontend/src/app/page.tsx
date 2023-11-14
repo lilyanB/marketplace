@@ -1,9 +1,11 @@
+"use client"
 
 export default function Home() {
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        HOME
+    <main className="flex flex-col py-6">
+      <div className="flex flex-col h-full w-full gap-6 justify-center items-center">
+        home
       </div>
     </main>
   )
