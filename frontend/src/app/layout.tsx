@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { NextUiProvider } from '@/providers/nextUiProvider'
 import Navbar from '@/components/Navbar'
+import { RainbowProvider } from '@/providers/rainbowProvider'
+import '@rainbow-me/rainbowkit/styles.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,8 +22,10 @@ export default function RootLayout({
     <html lang="en" className='dark'>
       <body className={inter.className}>
         <NextUiProvider>
-          <Navbar />
-          {children}
+          <RainbowProvider>
+            <Navbar />
+            {children}
+          </RainbowProvider>
         </NextUiProvider>
       </body>
     </html>
