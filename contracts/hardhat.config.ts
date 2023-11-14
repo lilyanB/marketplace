@@ -5,7 +5,7 @@ require("dotenv").config();
 const { PRIVATE_KEY } = process.env;
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.19",
+  solidity: "0.8.20",
   networks: {
     // for testnet
     "pego-testnet": {
