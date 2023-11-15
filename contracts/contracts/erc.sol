@@ -10,6 +10,11 @@ contract MyERC721 is ERC721 {
             _safeMint(msg.sender, i);
         }
     }
+
+    function _baseURI() internal pure override returns (string memory) {
+        return
+            "ipfs://bafybeifuhs6wadb26fgsxxisyg7la7re5bqlvxifquhbctlvtye3or2lo4/";
+    }
 }
 
 contract MyERC20 is ERC20 {

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Marketplace {
@@ -18,6 +19,7 @@ contract Marketplace {
         address payable owner;
         uint256 listPrice;
         address erc20Address;
+        string uri;
     }
 
     event ListingCreated(
@@ -27,7 +29,8 @@ contract Marketplace {
         address seller,
         address owner,
         uint256 listPrice,
-        address erc20Address
+        address erc20Address,
+        string uri
     );
 
     modifier validPrice(uint256 price) {
@@ -79,6 +82,7 @@ contract Marketplace {
         uint256 price,
         address erc20Address
     ) internal {
+        string memory uri = IERC721Metadata(nftAddress).tokenURI(tokenId);
         marketplaceIdToListingItem[marketplaceItemId] = Listing({
             marketplaceId: marketplaceItemId,
             nftAddress: nftAddress,
@@ -86,7 +90,8 @@ contract Marketplace {
             seller: seller,
             owner: owner,
             listPrice: price,
-            erc20Address: erc20Address
+            erc20Address: erc20Address,
+            uri: uri
         });
 
         IERC721(nftAddress).transferFrom(seller, address(this), tokenId);
@@ -97,7 +102,8 @@ contract Marketplace {
             seller,
             owner,
             price,
-            erc20Address
+            erc20Address,
+            uri
         );
     }
 
