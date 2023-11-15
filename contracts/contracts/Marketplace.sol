@@ -152,26 +152,21 @@ contract Marketplace {
         return marketplaceIdToListingItem[marketplaceItemId];
     }
 
-    function getMyListedNFTs() external view returns (Listing[] memory) {
-        uint256 totalListingCount = marketplaceIds;
-        uint256 listingCount = 0;
+    function getTotalItemsSold() external view returns (uint256) {
+        return totalMarketplaceItemsSold;
+    }
 
-        for (uint256 i = 1; i <= totalListingCount; i++) {
-            if (marketplaceIdToListingItem[i].owner == msg.sender) {
-                listingCount++;
-            }
+    function getTotalItemsListed() external view returns (uint256) {
+        return marketplaceIds;
+    }
+
+    function getMarketplaceItemIds() external view returns (uint256[] memory) {
+        uint256[] memory itemIds = new uint256[](marketplaceIds);
+
+        for (uint256 i = 1; i <= marketplaceIds; i++) {
+            itemIds[i - 1] = i;
         }
 
-        Listing[] memory items = new Listing[](listingCount);
-        uint256 index = 0;
-
-        for (uint256 i = 1; i <= totalListingCount; i++) {
-            if (marketplaceIdToListingItem[i].owner == msg.sender) {
-                items[index] = marketplaceIdToListingItem[i];
-                index++;
-            }
-        }
-
-        return items;
+        return itemIds;
     }
 }

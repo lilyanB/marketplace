@@ -1,22 +1,20 @@
-const hre = require("hardhat");
-const ethershardhat = hre.ethers;
-const { expect, assert } = require("chai");
+import { ethers } from "hardhat";
 
 async function main() {
 
-  const marketplaceAddress = "0xf5059a5D33d5853360D16C683c16e67980206f36"
-  const myERC721Address = "0x95401dc811bb5740090279Ba06cfA8fcF6113778"
-  const myERC20Address = "0x998abeb3E57409262aE5b751f60747921B33613E"
+  const marketplaceAddress = "0x5dd4E99779523812D7f4952C7413BfD38ac48028"
+  const myERC721Address = "0x12BA3a43Fd00535253D80B8B50c77c34d206CDc9"
+  const myERC20Address = "0x2aD63c66bA8EB51FDCabb9E2014b8C7002d88D08"
 
-  const Marketplace = await ethershardhat.getContractFactory("Marketplace");
+  const Marketplace = await ethers.getContractFactory("Marketplace");
   const marketplace = Marketplace.attach(marketplaceAddress);
   console.log(`deployed marketplace at ${marketplace.target}`);
 
-  const MyERC721 = await ethershardhat.getContractFactory("MyERC721");
+  const MyERC721 = await ethers.getContractFactory("MyERC721");
   const myERC721 = MyERC721.attach(myERC721Address);
   console.log(`deployed myERC721 at ${myERC721.target}`);
 
-  const MyERC20 = await ethershardhat.getContractFactory("MyERC20");
+  const MyERC20 = await ethers.getContractFactory("MyERC20");
   const myERC20 = MyERC20.attach(myERC20Address);
   console.log(`deployed myERC20 at ${myERC20.target}`);
 
@@ -30,21 +28,21 @@ async function main() {
   // await addItemERC20.wait();
   // console.log("addItemERC20 done")
 
-  const marketItem1 = await marketplace.getMarketItem(1);
-  const marketItem2 = await marketplace.getMarketItem(2);
+  // const marketItem1 = await marketplace.getMarketItem(1);
+  // const marketItem2 = await marketplace.getMarketItem(2);
 
-  console.log('marketplace Information:');
-  console.log(marketItem1);
-  console.log(marketItem2);
+  // console.log('marketplace Information:');
+  // console.log(marketItem1);
+  // console.log(marketItem2);
 
-  await marketplace.buyListing(1, { value: 1000 })
-  await myERC20.approve(marketplaceAddress, 10)
-  await marketplace.buyListingERC20(2)
+  // await marketplace.buyListing(1, { value: 1000 })
+  // await myERC20.approve(marketplaceAddress, 10)
+  // await marketplace.buyListingERC20(2)
 
 
   const marketItem1AfterBuy = await marketplace.getMarketItem(1);
   const marketItem2AfterBuy = await marketplace.getMarketItem(2);
-  const listedNFTsAfterBuy = await marketplace.getMyListedNFTs();
+  const listedNFTsAfterBuy = await marketplace.getMarketplaceItemIds();
   console.log('marketplace Information after buy:');
   console.log(marketItem1AfterBuy);
   console.log(marketItem2AfterBuy);
