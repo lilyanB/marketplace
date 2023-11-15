@@ -19,12 +19,12 @@ async function main() {
   console.log(`deployed myERC20 at ${myERC20.target}`);
 
   // await myERC721.approve(marketplaceAddress, 1)
-  // const addItemETH = await marketplace.createListing(1, myERC721Address, 1000)
+  // const addItemETH = await marketplace.createListing(1, myERC721Address, 10)
   // await addItemETH.wait();
   // console.log("addItemETH done")
 
   // await myERC721.approve(marketplaceAddress, 3)
-  // const addItemERC20 = await marketplace.createListingERC20(3, myERC721Address, 10, myERC20Address)
+  // const addItemERC20 = await marketplace.createListingERC20(3, myERC721Address, 100, myERC20Address)
   // await addItemERC20.wait();
   // console.log("addItemERC20 done")
 

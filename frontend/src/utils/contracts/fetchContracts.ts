@@ -5,6 +5,7 @@ import { marketContract } from "@/utils/contracts/setupContracts";
 export async function fetchItemsIndex() {
     const data = await readContracts({
         contracts: [
+            // @ts-ignore
             {
                 ...marketContract,
                 functionName: 'getMarketplaceItemIds',
@@ -17,6 +18,7 @@ export async function fetchItemsIndex() {
 export async function fetchItem(index: number) {
     const data = await readContracts({
         contracts: [
+            // @ts-ignore
             {
                 ...marketContract,
                 functionName: 'getMarketItem',
