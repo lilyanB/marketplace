@@ -8,18 +8,18 @@ async function main() {
 
   console.log('Deploying contracts with the deployer address:', deployer.address);
 
-  const Marketplace = await ethershardhat.getContractFactory("Marketplace");
-  const marketplace = await Marketplace.deploy();
-  await marketplace.waitForDeployment();
-  console.log(`deployed marketplace at ${marketplace.target}`);
+  // const Marketplace = await ethershardhat.getContractFactory("Marketplace");
+  // const marketplace = await Marketplace.deploy();
+  // await marketplace.waitForDeployment();
+  // console.log(`deployed marketplace at ${marketplace.target}`);
 
   const MyERC721 = await ethershardhat.getContractFactory("MyERC721");
-  const myERC721 = await MyERC721.deploy("Mon NFT", "NFT");
+  const myERC721 = await MyERC721.deploy("Mon NFT 2", "NFT2");
   await myERC721.waitForDeployment();
   console.log(`deployed myERC721 at ${myERC721.target}`);
 
   const MyERC20 = await ethershardhat.getContractFactory("MyERC20");
-  const myERC20 = await MyERC20.deploy("Mon ERC20", "ERC20");
+  const myERC20 = await MyERC20.deploy("Mon ERC202", "ERC202");
   await myERC20.waitForDeployment();
   console.log(`deployed myERC20 at ${myERC20.target}`);
 }

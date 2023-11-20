@@ -3,8 +3,8 @@ import { ethers } from "hardhat";
 async function main() {
 
   const marketplaceAddress = "0xCc0d2D1eD33D7FB5D1317CD47cEb51082EFe1e0E"
-  const myERC721Address = "0x7191d79df6bf1ab1CF300b03AE12c3f6707034Ce"
-  const myERC20Address = "0x977D7b53997a2abB96644978c241F9d00f786E65"
+  const myERC721Address = "0xD895C0D2283cc5E276eE9AC4f07B89D08e029F52"
+  const myERC20Address = "0x16cD189131b07C0a09932d3f9d7b74D7EE259D04"
 
   const Marketplace = await ethers.getContractFactory("Marketplace");
   const marketplace = Marketplace.attach(marketplaceAddress);
@@ -19,21 +19,30 @@ async function main() {
   console.log(`deployed myERC20 at ${myERC20.target}`);
 
   // await myERC721.approve(marketplaceAddress, 1)
-  // const addItemETH = await marketplace.createListing(1, myERC721Address, 10)
+  // const addItemETH = await marketplace.createListing(1, myERC721Address, ethers.parseEther('0.00001'))
   // await addItemETH.wait();
   // console.log("addItemETH done")
+
+
+  // await myERC721.approve(marketplaceAddress, 2)
+  // const addItemETH2 = await marketplace.createListingERC20(2, myERC721Address, ethers.parseEther('0.00002'))
+  // await addItemETH2.wait();
+  // console.log("addItemERC20 done")
 
   // await myERC721.approve(marketplaceAddress, 3)
   // const addItemERC20 = await marketplace.createListingERC20(3, myERC721Address, 100, myERC20Address)
   // await addItemERC20.wait();
   // console.log("addItemERC20 done")
 
-  const marketItem1 = await marketplace.getMarketItem(1);
-  const marketItem2 = await marketplace.getMarketItem(2);
+
+  const ERC20Name = await myERC20.name();
+  console.log(`ERC20Name:`, ERC20Name);
 
   console.log('marketplace Information:');
-  console.log(marketItem1);
-  console.log(marketItem2);
+  for (let i = 1; i <= 8; i++) {
+    const marketItem = await marketplace.getMarketItem(i);
+    console.log(`MarketItem ${i}:`, marketItem);
+  }
 
   // await marketplace.buyListing(1, { value: 1000 })
   // await myERC20.approve(marketplaceAddress, 10)
