@@ -6,14 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --pretty --noEmit",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write \"**/*.{js,ts,tsx,json,css}\""
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
     "@rainbow-me/rainbowkit": "^1.2.0",
+    "eslint-config-prettier": "^9.0.0",
     "framer-motion": "^10.16.4",
     "next": "14.0.2",
     "next-themes": "^0.2.1",
+    "prettier": "^3.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
