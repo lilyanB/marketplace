@@ -14,8 +14,12 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
-  Slider,
 } from '@nextui-org/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 import { useEffect, useState } from 'react'
 import { formatEther } from 'viem'
 import { useAccount } from 'wagmi'
@@ -25,6 +29,12 @@ export default function Home() {
   const [itemsSoldListing, setItemsSoldListing] = useState<any[]>([])
   const [itemModal, setItemModal] = useState<any>()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const images = [
+    { src: '/slides/2.jpg', alt: 'Second' },
+    { src: '/slides/3.png', alt: 'Third' },
+    { src: '/slides/1.jpg', alt: 'First' },
+  ]
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,8 +71,26 @@ export default function Home() {
   return (
     <>
       <main className="flex flex-col items-center h-screen space-y-6">
-        <div className="flex flex-col h-11/12 w-11/12 border-solid border-2">
-          <h1>Image slider</h1>
+        <div className="flex flex-col h-11/12 w-11/12">
+          <Swiper
+            navigation
+            pagination={{ type: 'fraction' }}
+            modules={[Navigation, Pagination]}
+            onSwiper={(swiper) => console.log(swiper)}
+            className="h-96 w-full rounded-lg"
+          >
+            {images.map((image, index) => (
+              <SwiperSlide key={index}>
+                <div className="flex h-full w-full items-center justify-center">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    className="block h-full w-full object-cover"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
         <div className="flex flex-col gap-6 h-11/12 w-11/12 border-solid border-2">
           <h1>Latests drops</h1>
