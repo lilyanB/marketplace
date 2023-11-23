@@ -116,8 +116,8 @@ export default function Page() {
 
     return (
       <div className="flex flex-col items-center space-y-6">
-        <div className="h-11/12 w-11/12 border-solid border-2">
-          <h1>NFT Collection</h1>
+        <div className="h-11/12 w-11/12">
+          <h1 className="text-4xl font-bold">NFT Collection</h1>
           <div className="flex flex-wrap gap-2 justify-center items-center">
             <Tooltip content="address 1">
               <Button radius="lg">Collection 1</Button>
@@ -136,8 +136,10 @@ export default function Page() {
             </Tooltip>
           </div>
         </div>
-        <div className="flex flex-col h-11/12 w-11/12 border-solid border-2">
-          <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">NFTs</h1>
+        <div className="flex flex-col h-11/12 w-11/12">
+          <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">
+            NFTs
+          </h1>
           <div className="flex flex-wrap gap-2 justify-center items-center">
             {itemsListing.length === 0 ? (
               <Spinner size="lg" />

@@ -18,12 +18,12 @@ import {
 } from '@nextui-org/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import { useEffect, useState } from 'react'
 import { formatEther } from 'viem'
 import { useAccount } from 'wagmi'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 
 export default function Home() {
   const { isConnected } = useAccount()
