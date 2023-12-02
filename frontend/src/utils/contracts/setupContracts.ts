@@ -9,7 +9,7 @@ import myERC20JSON from './ABI/MyERC20.json'
 
 const marketABI = marketJSON.abi
 const myERC721ABI = myERC721JSON.abi
-const myERC20ABI = myERC20JSON.abi
+export const myERC20ABI = myERC20JSON.abi
 
 export const marketContract = {
   address: marketplaceAddress,

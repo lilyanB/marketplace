@@ -20,13 +20,14 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { useEffect, useState } from 'react'
 import { formatEther } from 'viem'
-import { useAccount } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 export default function Home() {
   const { isConnected } = useAccount()
+  const { chain } = useNetwork()
   const [itemsSoldListing, setItemsSoldListing] = useState<any[]>([])
   const [itemModal, setItemModal] = useState<any>()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -61,8 +62,12 @@ export default function Home() {
       setItemsSoldListing(lastItems)
     }
 
-    fetchData()
-  }, [isConnected])
+    if (chain && chain.id == 123456) {
+      fetchData()
+    } else {
+      setItemsSoldListing([])
+    }
+  }, [isConnected, chain])
 
   const handleOpen = (item: any) => {
     console.log(item)

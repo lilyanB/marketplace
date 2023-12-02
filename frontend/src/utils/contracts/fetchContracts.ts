@@ -1,5 +1,5 @@
 import { readContracts } from '@wagmi/core'
-import { marketContract } from '@/utils/contracts/setupContracts'
+import { marketContract, myERC20ABI } from '@/utils/contracts/setupContracts'
 
 export async function fetchItemsIndex() {
   const data = await readContracts({
@@ -38,4 +38,42 @@ export async function fetchItems() {
     items.push(result[0].result)
   }
   return items
+}
+
+export async function fetchAllowanceERC20(
+  address: any,
+  marketplaceAddress: any,
+  erc20Address: any
+) {
+  const data = await readContracts({
+    contracts: [
+      {
+        // @ts-ignore
+        abi: myERC20ABI,
+        address: erc20Address,
+        functionName: 'allowance',
+        args: [address, marketplaceAddress],
+      },
+    ],
+  })
+  return data[0].result
+}
+
+export async function fetchSymbolERC20(erc20Address: any): Promise<string> {
+  try {
+    const data = await readContracts({
+      contracts: [
+        {
+          // @ts-ignore
+          abi: myERC20ABI,
+          address: erc20Address,
+          functionName: 'symbol',
+        },
+      ],
+    })
+    return (data[0]?.result as string) || ''
+  } catch (error) {
+    console.error('Error fetching ERC20 symbol:', error)
+    return ''
+  }
 }

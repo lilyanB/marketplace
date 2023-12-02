@@ -14,20 +14,29 @@ import {
   ModalHeader,
   Spinner,
   Tooltip,
+  Input,
 } from '@nextui-org/react'
-import { fetchItems } from '@/utils/contracts/fetchContracts'
+import {
+  fetchAllowanceERC20,
+  fetchItems,
+  fetchSymbolERC20,
+} from '@/utils/contracts/fetchContracts'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useAccount, useContractWrite } from 'wagmi'
-import { marketContract } from '@/utils/contracts/setupContracts'
+import { useAccount, useContractWrite, useNetwork } from 'wagmi'
+import { marketContract, myERC20ABI } from '@/utils/contracts/setupContracts'
 import { formatEther } from 'viem'
-import { addressNul } from '@/utils/contracts/constants'
+import { addressNul, marketplaceAddress } from '@/utils/contracts/constants'
 
 // Component definition
 export default function Page() {
-  const { isConnected } = useAccount()
+  const { address, isConnected } = useAccount()
+  const { chain } = useNetwork()
   const [itemsListing, setItemsListing] = useState<any[]>([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [itemModal, setItemModal] = useState<any>()
+  const [allowanceOfERC20, setAllowanceOfERC20] = useState<any>()
+  const [symboleOfERC20, setSymboleOfERC20] = useState<string>('')
+  const [approvalAmount, setApprovalAmount] = useState<any>()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,18 +54,30 @@ export default function Page() {
       for (var val of items) {
         if (val.owner == addressNul) {
           itemsList.push(val)
-        } else {
         }
       }
       console.log(itemsList)
       setItemsListing(itemsList)
     }
 
-    fetchData()
-  }, [isConnected])
+    if (chain && chain.id == 123456) {
+      fetchData()
+    } else {
+      setItemsListing([])
+    }
+  }, [isConnected, chain])
 
-  const handleOpen = (item: any) => {
+  const handleOpen = async (item: any) => {
     setItemModal(item)
+
+    const allowance = await fetchAllowanceERC20(
+      address,
+      marketplaceAddress,
+      item.erc20Address
+    )
+    const symbol: string = await fetchSymbolERC20(item.erc20Address)
+    setAllowanceOfERC20(allowance)
+    setSymboleOfERC20(symbol)
     onOpen()
   }
 
@@ -81,6 +102,14 @@ export default function Page() {
     }
   )
 
+  const { write: writeApprove } = useContractWrite(
+    // @ts-ignore
+    {
+      abi: myERC20ABI,
+      functionName: 'approve',
+    }
+  )
+
   const handleBuyButtonClick = async (itemModal: any) => {
     console.log(itemModal)
     try {
@@ -100,6 +129,26 @@ export default function Page() {
           args: [id],
         })
       }
+    } catch (error) {
+      console.error('Error performing buy action:', error)
+    }
+  }
+
+  const handleApproveButtonClick = async (
+    itemModal: any,
+    approvalAmount: any
+  ) => {
+    console.log(approvalAmount)
+    console.log(itemModal)
+    try {
+      console.log('Increase allowance')
+      await writeApprove({
+        // @ts-ignore
+        address: itemModal.erc20Address,
+        args: [marketplaceAddress, itemModal.listPrice],
+      })
+      onClose()
+      onOpen()
     } catch (error) {
       console.error('Error performing buy action:', error)
     }
@@ -237,10 +286,31 @@ export default function Page() {
                   </>
                 ) : (
                   <>
+                    <p className="text-tiny">your allowance for this ERC20 :</p>
                     <p className="text-tiny">
-                      {formatEther(itemModal.listPrice)}
+                      {formatEther(allowanceOfERC20)} {symboleOfERC20}
                     </p>
-                    <p className="text-tiny">ERC20</p>
+                    <div className="flex flex-row">
+                      <Input
+                        type="number"
+                        id="approvalAmount"
+                        size="sm"
+                        value={approvalAmount}
+                        onChange={(e) => setApprovalAmount(e.target.value)}
+                      />
+                      <Button
+                        color="primary"
+                        onClick={() =>
+                          handleApproveButtonClick(itemModal, approvalAmount)
+                        }
+                      >
+                        Increase
+                      </Button>
+                    </div>
+                    <p className="text-tiny">price for this ERC20 :</p>
+                    <p className="text-tiny">
+                      {formatEther(itemModal.listPrice)} {symboleOfERC20}
+                    </p>
                   </>
                 )}
               </ModalBody>
