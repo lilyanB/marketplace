@@ -32,6 +32,7 @@ export default function Page() {
   const { address, isConnected } = useAccount()
   const { chain } = useNetwork()
   const [itemsListing, setItemsListing] = useState<any[]>([])
+  const [itemsListingByUser, setItemsListingByUser] = useState<any[]>([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [itemModal, setItemModal] = useState<any>()
   const [allowanceOfERC20, setAllowanceOfERC20] = useState<any>()
@@ -57,6 +58,8 @@ export default function Page() {
         }
       }
       console.log(itemsList)
+      const filteredArray = itemsList.filter((item) => item.seller === address)
+      setItemsListingByUser(filteredArray)
       setItemsListing(itemsList)
     }
 
@@ -194,6 +197,72 @@ export default function Page() {
               <Spinner size="lg" />
             ) : (
               itemsListing.map((item, index) => (
+                <div
+                  key={index}
+                  className="w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+                >
+                  {/* Card content */}
+                  <Card
+                    isFooterBlurred
+                    radius="lg"
+                    className="border-none"
+                    key={index}
+                  >
+                    <div className="h-48">
+                      <Image
+                        alt="nft image"
+                        height={200}
+                        width={200}
+                        src={`https://ipfs.io/ipfs/${item.uri.substring(
+                          7
+                        )}.png`}
+                      />
+                    </div>
+                    <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                          {item.erc20Address == addressNul ? (
+                            <>
+                              <p className="text-tiny">
+                                {formatEther(item.listPrice)}
+                              </p>
+                              <p className="text-tiny">PG</p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="text-tiny">
+                                {formatEther(item.listPrice)}
+                              </p>
+                              <p className="text-tiny">ERC20</p>
+                            </>
+                          )}
+                        </div>
+                        <Button
+                          className="text-tiny text-white bg-black/20"
+                          variant="flat"
+                          color="default"
+                          radius="lg"
+                          size="sm"
+                          onPress={() => handleOpen(item)}
+                        >
+                          View
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </div>
+              ))
+            )}
+          </div>
+
+          <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">
+            Your NFTs on sale
+          </h1>
+          <div className="flex flex-wrap gap-2 justify-center items-center">
+            {itemsListingByUser.length === 0 ? (
+              <Spinner size="lg" />
+            ) : (
+              itemsListingByUser.map((item, index) => (
                 <div
                   key={index}
                   className="w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
