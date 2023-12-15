@@ -4,6 +4,7 @@
 
 ![Home page mobil](screen/home_mobil.png)
 ![Home page](screen/home.png)
+![Explore page](screen/explore.png)
 
 # Vision
 
